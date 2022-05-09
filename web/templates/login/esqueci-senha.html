@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/static/images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end">
+      <div class="col-md-9 ftco-animate pb-5">
+      	<p class="breadcrumbs mb-2">
+      		<span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> 
+      		<span class="mr-2"><a href="/login">Login <i class="ion-ios-arrow-forward"></i></a></span> 
+      		<span>Esqueci minha senha <i class="ion-ios-arrow-forward"></i></span></p>
+        <h1 class="mb-0 bread">Esqueci minha senha</h1>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="ftco-section bg-light ftco-faqs">
+	<div class="container">
+		<div class="row">
+				<div class="col-md-7 bg-white p-4 mx-auto"> 
+					<h3 class="mb-4">Esqueci minha senha</h3>
+					<form method="POST" id="lembrarForm" name="lembrarForm" class="lembrarForm">
+						<div class="row">
+							<div class="col-md-12"> 
+								<div class="form-group">
+									<label class="label" for="email">E-mail</label>
+									<input type="email" class="form-control" name="email" id="email" placeholder="E-mail">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="submit" value="Lembra" class="btn btn-primary" id="btn-lembrar">
+									<div class="submitting"></div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+	</div>
+</section>
+{% endblock %}
+
+
+{% block content_js %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.nav-item.login').addClass('active');
+
+			$("#lembrarForm").submit(function(){
+
+				if ($('#email').val() == "") {
+					Swal.fire({
+					  title: 'Erro!',
+					  text: 'Digite seu e-mail',
+					  icon: 'error'
+					});
+
+					return false;
+				}
+
+				var csrftoken = $('input[name=csrfmiddlewaretoken]').val();
+
+				$.ajax({
+					url: '/login/esqueci-senha/ajax',
+					method: 'post',
+					headers: {
+						'X-CSRFToken': csrftoken
+					},
+					data: {
+						'email': $('#email').val()
+					}
+				}).done(function(response) {
+					console.log(response);
+					if (response.success == true) {
+						Swal.fire({
+						  title: 'Sucesso!',
+						  text: 'Enviamos sua senha para o e-mail: ' + response.email,
+						  icon: 'success'
+						}).then(function(){
+							window.location.href="/login";
+						})
+					}
+					else {
+						Swal.fire({
+						  title: 'Erro!',
+						  text: 'Não foi possível recuperar sua senha!',
+						  icon: 'error'
+						});
+					}
+				}).fail(function() {
+					Swal.fire({
+					  title: 'Erro!',
+					  text: 'Não foi possível recuperar sua senha!',
+					  icon: 'error'
+					});
+				});				
+
+				return false;
+			});
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/static/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end">
+      <div class="col-md-9 ftco-animate pb-5">
+      	<p class="breadcrumbs mb-2">
+          <span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> 
+          <span class="mr-2"><a href="/ongs">Ong's <i class="ion-ios-arrow-forward"></i></a></span>
+          <span>Ong - {{ong.name}} <i class="ion-ios-arrow-forward"></i></span>
+        </p>
+        <h1 class="mb-0 bread">Ong - {{ong.name}}</h1>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row">
+      <table class="table">
+        <tr><th>Nome</th><td>{{ong.name}}</td></tr>
+        <tr><th>Nome fantasia</th><td>{{ong.fantasia}}</td></tr>
+        <tr><th>E-mail</th><td>{{ong.email}}</td></tr>
+        <tr><th>Telefone</th><td>{{ong.telephone}}</td></tr>
+        <tr><th>Logradouro</th><td>{{ong.street}}</td></tr>
+        <tr><th>Número</th><td>{{ong.number}}</td></tr>
+        <tr><th>Complemento</th><td>{{ong.complement|default:"-"}}</td></tr>
+        <tr><th>Bairro</th><td>{{ong.district}}</td></tr>
+        <tr><th>Cidade</th><td>{{ong.city}}</td></tr>
+        <tr><th>Estado</th><td>{{ong.state}}</td></tr>
+        <tr><th>CEP</th><td>{{ong.zipCode}}</td></tr>
+        <tr><th>Conta Bancária</th><td>{{ong.bank|default:"-"}}</td></tr>
+        <tr><th>PIX</th><td>{{ong.pix|default:"-"}}</td></tr>
+      </table>
+      <a href="/ongs" class="btn btn-primary btn-pedido-doacao">Voltar</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+
+{% block content_js %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.nav-item.login-animais').addClass('active');
+		});
+	</script>
+{% endblock %}

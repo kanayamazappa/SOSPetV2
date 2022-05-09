@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/static/images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end">
+      <div class="col-md-9 ftco-animate pb-5">
+      	<p class="breadcrumbs mb-2">
+      		<span class="mr-2"><a href="/login/area">Área Restrita <i class="ion-ios-arrow-forward"></i></a></span> 
+          <span class="mr-2"><a href="/login/animais">Meus Animais <i class="ion-ios-arrow-forward"></i></a></span>
+        </p>
+        <h1 class="mb-0 bread">Meus Animais</h1>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="ftco-section bg-light ftco-faqs">
+	<div class="container">
+		<div class="row">
+				<div class="col-md-12 bg-white p-4 mx-auto"> 
+					<form method="POST" id="petForm" name="petForm" class="petForm" enctype="multipart/form-data">
+						<div class="row">
+							<div class="col-md-12"> 
+								<h3 class="mb-4">Dados Animal</h3>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12"> 
+								<div class="form-group">
+									<div class="custom-file">
+										<label class="custom-file-label" for="photo">Foto</label>
+										<input type="file" class="custom-file-input" name="photo" id="photo" placeholder="Foto">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-9"> 
+								<div class="form-group">
+									<label class="label" for="name">Nome</label>
+									<input type="text" class="form-control" name="name" id="name" placeholder="Nome">
+								</div>
+							</div>
+							<div class="col-md-3"> 
+								<div class="form-group">
+									<label class="label" for="genre">Sexo</label>
+									<select class="form-control" name="genre" id="genre" placeholder="Sexo">
+										<option value="M">Macho</option>
+										<option value="F">Fêmea</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-3"> 
+								<div class="form-group">
+									<label class="label" for="specie">Espécie</label>
+									<select class="form-control" name="specie" id="specie" placeholder="Espécie">
+										{% for specie in species %}
+										<option value="{{specie.id}}">{{specie.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-3"> 
+								<div class="form-group">
+									<label class="label" for="specie">Raça</label>
+									<select class="form-control" name="breed" id="breed" placeholder="Raça">
+										{% for breed in breeds %}
+										<option value="{{breed.id}}">{{breed.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-3"> 
+								<div class="form-group">
+									<label class="label" for="coat">Pelagem</label>
+									<select class="form-control" name="coat" id="coat" placeholder="Pelagem">
+										{% for coat in coats %}
+										<option value="{{coat.id}}">{{coat.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-3"> 
+								<div class="form-group">
+									<label class="label" for="color">Cor</label>
+									<select class="form-control" name="color" id="color" placeholder="Cor">
+										{% for color in colors %}
+										<option value="{{color.id}}">{{color.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6"> 
+								<div class="form-group">
+									<label class="label" for="microship">Microchip</label>
+									<input type="text" class="form-control" name="microship" id="microship" placeholder="Microchip">
+								</div>
+							</div>
+							<div class="col-md-2"> 
+								<div class="form-group">
+									<label class="label" for="age">Idade (ANOS)</label>
+									<input type="number" class="form-control" name="age" id="age" placeholder="Idade">
+								</div>
+							</div>
+							<div class="col-md-2"> 
+								<div class="form-group">
+									<label class="label" for="weight">Peso (KG)</label>
+									<input type="number" class="form-control" name="weight" id="weight" placeholder="Peso">
+								</div>
+							</div>
+							<div class="col-md-2"> 
+								<div class="form-group">
+									<label class="label" for="height">Altura (CM)</label>
+									<input type="number" class="form-control" name="height" id="height" placeholder="height">
+								</div>
+							</div>
+							<div class="col-md-6"> 
+								<div class="form-group">
+									<label class="label" for="microship">Personalidade</label>
+									<input type="text" class="form-control" name="personality" id="personality" placeholder="Personalidade">
+								</div>
+							</div>
+							<div class="col-md-6"> 
+								<div class="form-group">
+									<label class="label" for="vaccination">Vacinação</label>
+									<input type="text" class="form-control" name="vaccination" id="vaccination" placeholder="Vacinação">
+								</div>
+							</div>
+							<div class="col-md-12"> 
+								<div class="form-group">
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" name="castrated" id="castrated" placeholder="Castrado" value="True">
+										<label class="form-check-label" for="castrated">Animal de estimação é castrado?</label>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12"> 
+								<div class="form-group">
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" name="available" id="available" placeholder="Disponível" value="True">
+										<label class="form-check-label" for="available">Animal de estimação disponível para adoção?</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="submit" value="Cadastrar" class="btn btn-primary" id="btn-register">
+									<div class="submitting"></div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+	</div>
+</section>
+{% endblock %}
+
+
+{% block content_js %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.nav-item.login-animais').addClass('active');
+
+			$('#petForm').submit(function(){
+				var formData = new FormData(this);
+				var csrftoken = $('input[name=csrfmiddlewaretoken]').val();
+				$.ajax({
+            url: '/login/animais/cadastrar/ajax',
+            type: 'POST',
+            headers: {
+							'X-CSRFToken': csrftoken
+						},
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+            	if (response.success) {
+            		Swal.fire({
+								  title: 'Sucesso!',
+								  text: response.message,
+								  icon: 'success'
+								}).then(function(){
+									window.location.href="/login/animais";
+								})
+            	}
+            	else
+            	{
+            		Swal.fire({
+								  title: 'Erro!',
+								  text: response.message,
+								  icon: 'error'
+								});
+            	}
+            }
+        });
+
+				return  false;
+			});
+
+			
+		});
+
+		function populate_form(){
+			$('#name').val('Paulo Zapparolli')
+			$('#email').val('paulo.zapparolli@jet.com.br'),
+			$('#password').val('123456'),
+			$('#confirm').val('123456');
+			$('#cpf').val('296.247.021-10');
+			$('#phone').val('(16) 99999-9999');
+			$('#street').val('Rua Galileu Galilei');
+			$('#number').val('1800');
+			$('#complement').val('Sala 706');
+			$('#district').val('Condomínio Itamaraty');
+			$('#city').val('Ribeirão Preto');
+			$('#state').val('SP');
+			$('#zipCode').val('14020-620');
+		}
+	</script>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/static/images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end">
+      <div class="col-md-9 ftco-animate pb-5">
+      	<p class="breadcrumbs mb-2">
+          <span class="mr-2"><a href="/login/area">Área Restrita <i class="ion-ios-arrow-forward"></i></a></span> 
+          <span>Meus Animais <i class="ion-ios-arrow-forward"></i></span>
+        </p>
+        <h1 class="mb-0 bread">Meus Animais</h1>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 ftco-animate pb-5 text-center">
+        <a href="/login/animais/cadastrar" class="btn btn-primary d-block px-2 py-3">Cadastrar animal para doação</a>
+      </div>
+    </div>
+    <div class="row">
+      {% for item in pets %}
+      <div class="col-md-4 ftco-animate">
+          {% if item.pet != None %}
+          <div class="block-7">
+            {% if item.pet.photo is not None %}
+              <div class="img" style="background-image: url({{item.pet.photo}});"></div>
+            {% else %}
+              <div class="img" style="background-image: url(/static/images/image_4.jpg);"></div>
+            {% endif %}
+            <div class="text-center p-4">
+              <span class="excerpt d-block">{{item.pet.name}}</span>
+              <ul class="pricing-text mb-5">
+                <li><span class="fa fa-check mr-2"></span>{{item.pet.specie.name}}</li>
+                <li><span class="fa fa-check mr-2"></span>{{item.pet.breed.name}}</li>
+                <li><span class="fa fa-check mr-2"></span>{{item.pet.color.name}}</li>
+              </ul>
+              {% if item.interest > 0 %}
+                <a href="/login/animais/pedidos-adocao/{{item.pet.id}}" class="btn btn-primary btn-pedido-doacao">({{item.interest}}) Pedido(s) de Adoção</a>
+              {% endif %}
+              {% if item.adoption == 0 %}
+                <a href="/login/animais/{{item.pet.id}}" class="btn btn-primary d-block px-2 py-3">Editar</a>
+              {% else %}
+                <a href="javascript:void(0);" class="btn btn-secondary d-block px-2 py-3" disabled="disabled">Adotado</a>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      {% empty %}
+      <div class="row">
+        <h5>Nenhum animal cadastrado</h5>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content_css %}
+<style>
+  .btn-pedido-doacao {
+    position: absolute;
+    top: 0px;
+    right: 1.2em;
+    max-width: 40%;
+  }
+</style>
+{% endblock %}
+
+{% block content_js %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.nav-item.login-animais').addClass('active');
+		});
+	</script>
+{% endblock %}
