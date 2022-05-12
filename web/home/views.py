@@ -13,6 +13,9 @@ def home_index(request):
         response = executeapi("banner", "get", {"ordering": "-created_at"}, None, None)
         if response['status'] == 200:
             banners = response['data']
+
+            for banner in banners:
+                banner["banner"] = banner["banner"].replace("http://loadbalancer", "http://localhost:5000")
         else:
             banners = []
     except:

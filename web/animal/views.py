@@ -11,6 +11,7 @@ def animal_index(request):
 		response = executeapi("animal/petssel", "get", {"available": "true", "ordering": "-created_at"}, None, None)
 		if response['status'] == 200:
 			pets = response['data']
+			print(pets)
 		else:
 			pets = []
 	except:

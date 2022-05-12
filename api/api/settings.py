@@ -95,7 +95,7 @@ DATABASES = {
         'NAME': 'kanayama',
         'USER': 'root',
         'PASSWORD': 'pzk#219441',
-        'HOST': 'localhost',   # Or an IP that your DB is hosted on
+        'HOST': 'mysql',   # Or an IP that your DB is hosted on
         'PORT': '3306',
     }
 }

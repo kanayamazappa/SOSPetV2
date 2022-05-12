@@ -1,8 +1,8 @@
 version: '3.1'
 
 services:
-
-  db:
+  mysql:
+    container_name: mysql
     image: mariadb:latest
     restart: always
     environment:
@@ -13,4 +13,140 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - .\mysql_data:/var/lib/mysql
+      - .\mysql\data:/var/lib/mysql
+    networks:
+      - sospet-network
+  
+  api1:
+    container_name: api1
+    build: 
+      context: .
+      dockerfile: .\api\Dockerfile
+    command: ["./run_web.sh"]
+    volumes:
+      - .\api:/api
+    ports:
+      - "5001:5000"
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    networks:
+      - sospet-network
+  
+  api2:
+    container_name: api2
+    build: 
+      context: .
+      dockerfile: .\api\Dockerfile
+    command: ["./run_web.sh"]
+    volumes:
+      - .\api:/api
+    ports:
+      - "5002:5000"
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    networks:
+      - sospet-network
+  
+  api3:
+    container_name: api3
+    build: 
+      context: .
+      dockerfile: .\api\Dockerfile
+    command: ["./run_web.sh"]
+    volumes:
+      - .\api:/api
+    ports:
+      - "5003:5000"
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    networks:
+      - sospet-network
+  
+  nginx-api:
+    container_name: nginx-api
+    build: 
+      context: .
+      dockerfile: .\nginx\api\Dockerfile
+    ports:
+    - "5000:80"
+    depends_on:
+      - api1
+      - api2
+      - api3
+    networks:
+      - sospet-network
+  
+  web1:
+    container_name: web1
+    build: 
+      context: .
+      dockerfile: .\web\Dockerfile
+    command: ["./run_web.sh"]
+    volumes:
+      - .\web:/web
+    ports:
+      - "8001:8000"
+    links:
+      - nginx-api
+    depends_on:
+      - nginx-api
+    networks:
+      - sospet-network
+  
+  web2:
+    container_name: web2
+    build: 
+      context: .
+      dockerfile: .\web\Dockerfile
+    command: ["./run_web.sh"]
+    volumes:
+      - .\web:/web
+    ports:
+      - "8002:8000"
+    links:
+      - nginx-api
+    depends_on:
+      - nginx-api
+    networks:
+      - sospet-network
+
+  web3:
+    container_name: web3
+    build: 
+      context: .
+      dockerfile: .\web\Dockerfile
+    command: ["./run_web.sh"]
+    volumes:
+      - .\web:/web
+    ports:
+      - "8003:8000"
+    links:
+      - nginx-api
+    depends_on:
+      - nginx-api
+    networks:
+      - sospet-network
+  
+  nginx-web:
+    container_name: nginx-web
+    build: 
+      context: .
+      dockerfile: .\nginx\web\Dockerfile
+    ports:
+    - "8000:80"
+    depends_on:
+      - web1
+      - web2
+      - web3
+    networks:
+      - sospet-network
+
+networks:
+  sospet-network:
+    driver: bridge

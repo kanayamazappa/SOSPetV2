@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-a90ouv(j^)!i%l_671^+^^f@1$6!vkiyz6nua5*s-cx3lss7$t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -140,7 +140,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ADMIN_ENABLED = False
 
-API_URL = 'http://localhost:5000'
+API_URL = 'http://172.17.0.1:5000'
 API_USER = 'admin'
 API_PASS = '123456'
 
