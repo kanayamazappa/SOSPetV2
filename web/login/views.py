@@ -227,13 +227,13 @@ def login_active(request):
 		timestamp = float(key_active.split('|@|')[0])
 		date_key = datetime.fromtimestamp(timestamp)
 		login_id = int(key_active.split('|@|')[1])
+		login = None
+		response = executeapi("login/users/%s" % (login_id), "get", None, None, None)
+		if response['status'] == 200:
+			login = response['data']
 
 		if date_now <= date_key:
-
-			login = None
-			response = executeapi("login/users/%s" % (login_id), "get", None, None, None)
 			if response['status'] == 200:
-				login = response['data']
 				login['active'] = True
 				executeapi("login/users/%s" % (login_id), "put", None, None, login)
 				message = "Cadastro ativado com sucesso!"
@@ -242,8 +242,8 @@ def login_active(request):
 				message = "Falha ao ativar o cadastro, token não reconhecido!"
 		else:
 			date_key = datetime.timestamp(datetime.now() + timedelta(hours=1))
-			key_active = encrypt('%s|@|%d' % (date_key, login.id))
-			message = 'Olá %s, para ativar sua conta clique <a href="http://%s/login/ativar?key=%s">aqui</a>' % (request.get_host(), login['name'], key_active)
+			key_active = encrypt('%s|@|%d' % (date_key, login['id']))
+			message = 'Olá %s, para ativar sua conta clique <a href="http://localhost:8000/login/ativar?key=%s">aqui</a>' % (login['name'], key_active)
 			send_mail("SOS Pet - Ativação de conta", message, "SOS Pet<%s>" % (settings.EMAIL_HOST_USER), [login['email']])
 			message = "Seu link esta expirado, foi enviado um novo e-mail!"
 	else:
@@ -350,6 +350,9 @@ def login_animais(request):
 		aux_pets = response['data']
 	
 	for pet in aux_pets:
+		if pet["photo"]:
+			pet["photo"] = pet["photo"].replace("http://loadbalancer", "http://localhost:5000")
+		
 		interest = 0
 		response = executeapi("animal/interests", "get", {"pet": pet["id"], "confirm": "I"}, None, None)
 		if response['status'] == 200:
@@ -379,6 +382,8 @@ def login_animais_edit(request, pk):
 	response = executeapi("animal/petssel/%s" % (pk), "get", None, None, None)
 	if response['status'] == 200:
 		pet = response['data']
+		if pet["photo"]:
+			pet["photo"] = pet["photo"].replace("http://loadbalancer", "http://localhost:5000")
 	
 	species = login_species(request)
 	breeds = login_breeds(request)
@@ -577,6 +582,8 @@ def login_animais_interest(request, pk):
 		response = executeapi("animal/pets/%s" % (pk), "get", None, None, None)
 		if response['status'] == 200:
 			pet = response['data']
+			if pet["photo"]:
+				pet["photo"] = pet["photo"].replace("http://loadbalancer", "http://localhost:5000")
 		else:
 			return redirect('/login/area')
 		return render(request, 'login/animais-interesse.html', { 'pet': pet })
@@ -590,7 +597,7 @@ def login_animais_interest_ajax(request, pk):
 
 		if interest_send == "true":
 			pet = None
-			response = executeapi("animal/pets/%s" % (pk), "get", None, None, None)
+			response = executeapi("animal/petssel/%s" % (pk), "get", None, None, None)
 			if response['status'] == 200:
 				pet = response['data']
 

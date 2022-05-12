@@ -11,7 +11,10 @@ def animal_index(request):
 		response = executeapi("animal/petssel", "get", {"available": "true", "ordering": "-created_at"}, None, None)
 		if response['status'] == 200:
 			pets = response['data']
-			print(pets)
+
+			for pet in pets:
+				if pet["photo"]:
+					pet["photo"] = pet["photo"].replace("http://loadbalancer", "http://localhost:5000")
 		else:
 			pets = []
 	except:
@@ -24,6 +27,8 @@ def animal_detail(request, pk):
 		response = executeapi("animal/petssel/%s" % (pk), "get", None, None, None)
 		if response['status'] == 200:
 			pet = response['data']
+			if pet["photo"]:
+				pet["photo"] = pet["photo"].replace("http://loadbalancer", "http://localhost:5000")
 		else:
 			return redirect('/animais')
 	except:

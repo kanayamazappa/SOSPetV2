@@ -21,6 +21,8 @@
     <h2 class="pt-3">{{pet.name}}</h2>
     {% if pet.photo %}
     <div><img class="pt-3" src="{{pet.photo}}"></div>
+    {% else %}
+    <div><img class="pt-3" src="/static/images/image_4.jpg"></div>
     {% endif %}
     <div class="row pt-5">
       <div class="col-md-6 services-2 w-100 d-flex">
