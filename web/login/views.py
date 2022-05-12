@@ -98,7 +98,7 @@ def login_cadastro_ajax(request):
 
 			key_active = encrypt('%s|@|%d' % (date_key, login['id']))
 
-			message = 'Olá %s, para ativar sua conta clique <a href="http://%s/login/ativar?key=%s">aqui</a>' % (login['name'], request.get_host(), key_active)
+			message = 'Olá %s, para ativar sua conta clique <a href="http://localhost:8000/login/ativar?key=%s">aqui</a>' % (login['name'], key_active)
 
 			send_mail("SOS Pet - Ativação de conta", message, "SOS Pet<%s>" % (settings.EMAIL_HOST_USER), [login['email']])
 
@@ -597,7 +597,7 @@ def login_animais_interest_ajax(request, pk):
 
 		if interest_send == "true":
 			pet = None
-			response = executeapi("animal/petssel/%s" % (pk), "get", None, None, None)
+			response = executeapi("animal/petsselg/%s" % (pk), "get", None, None, None)
 			if response['status'] == 200:
 				pet = response['data']
 
@@ -619,12 +619,11 @@ def login_animais_interest_ajax(request, pk):
 			
 			message = """
 				<p>Olá {{owner_name}}, o {{interested_name}} está interessado no seu animal {{pet_name}}</p>
-				<p><a href="http://{{get_full_path}}/login/animais/adocao/{{interest_id}}">Clique aqui</a> para ver mais detalhes</p>
+				<p><a href="http://localhost:8000/login/animais/adocao/{{interest_id}}">Clique aqui</a> para ver mais detalhes</p>
 			"""
 			message.replace("{{owner_name}}", owner["name"])
 			message.replace("{{interested_name}}", interested["name"])
 			message.replace("{{pet_name}}", pet["name"])
-			message.replace("{{get_full_path}}", request.get_host())
 			message.replace("{{interest_id}}", str(interest["id"]))
 			print(message)
 
