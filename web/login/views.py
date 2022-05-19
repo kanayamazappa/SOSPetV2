@@ -351,7 +351,7 @@ def login_animais(request):
 	
 	for pet in aux_pets:
 		if pet["photo"]:
-			pet["photo"] = pet["photo"].replace("http://loadbalancer", "http://localhost:5000")
+			pet["photo"] = pet["photo"].replace("http://172.17.0.1", "http://localhost:5000")
 		
 		interest = 0
 		response = executeapi("animal/interests", "get", {"pet": pet["id"], "confirm": "I"}, None, None)
@@ -383,7 +383,7 @@ def login_animais_edit(request, pk):
 	if response['status'] == 200:
 		pet = response['data']
 		if pet["photo"]:
-			pet["photo"] = pet["photo"].replace("http://loadbalancer", "http://localhost:5000")
+			pet["photo"] = pet["photo"].replace("http://172.17.0.1", "http://localhost:5000")
 	
 	species = login_species(request)
 	breeds = login_breeds(request)
@@ -583,7 +583,7 @@ def login_animais_interest(request, pk):
 		if response['status'] == 200:
 			pet = response['data']
 			if pet["photo"]:
-				pet["photo"] = pet["photo"].replace("http://loadbalancer", "http://localhost:5000")
+				pet["photo"] = pet["photo"].replace("http://172.17.0.1", "http://localhost:5000")
 		else:
 			return redirect('/login/area')
 		return render(request, 'login/animais-interesse.html', { 'pet': pet })

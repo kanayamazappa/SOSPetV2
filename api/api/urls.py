@@ -24,7 +24,7 @@ from home.api.viewset import ContactViewSet, QuemSomosViewSet, RecipientViewSet
 from ong.api.viewset import OngViewSet
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 from rest_framework import routers
-from animal.api.viewset import BreedViewSet, CoatViewSet, ColorViewSet, InterestViewSet, PetSelViewSet, PetViewSet, SpecieViewSet
+from animal.api.viewset import BreedViewSet, CoatViewSet, ColorViewSet, InterestViewSet, PetViewSet, PetSelViewSet, SpecieViewSet
 from banner.api.viewset import BannerViewSet
 from login.api.viewset import AddressViewSet, DocumentViewSet, LoginViewSet, TelephoneViewSet
 

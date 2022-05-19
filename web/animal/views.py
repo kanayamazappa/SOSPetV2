@@ -14,7 +14,7 @@ def animal_index(request):
 
 			for pet in pets:
 				if pet["photo"]:
-					pet["photo"] = pet["photo"].replace("http://loadbalancer", "http://localhost:5000")
+					pet["photo"] = pet["photo"].replace("http://172.17.0.1", "http://localhost:5000")
 		else:
 			pets = []
 	except:
@@ -28,7 +28,7 @@ def animal_detail(request, pk):
 		if response['status'] == 200:
 			pet = response['data']
 			if pet["photo"]:
-				pet["photo"] = pet["photo"].replace("http://loadbalancer", "http://localhost:5000")
+				pet["photo"] = pet["photo"].replace("http://172.17.0.1", "http://localhost:5000")
 		else:
 			return redirect('/animais')
 	except:
